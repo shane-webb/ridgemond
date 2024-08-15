@@ -162,8 +162,8 @@ local theme = lush(function(injected_functions)
     -- Function       { }, --   Function name (also: methods for classes)
 
     Statement      { fg=Normal.fg }, -- (*) Any statement
-    Conditional    { fg=Comment.fg }, --   if, then, else, endif, switch, etc.
-    Repeat         { fg=Conditional.fg }, --   for, do, while, etc.
+    Conditional    { fg=NonText.fg.desaturate(25) }, --   if, then, else, endif, switch, etc.
+    Repeat         { fg=NonText.fg.desaturate(25) }, --   for, do, while, etc.
     -- Label          { }, --   case, default, etc.
     -- Operator       { }, --   "sizeof", "+", "*", etc.
     -- Keyword        { }, --   any other keyword
@@ -175,7 +175,7 @@ local theme = lush(function(injected_functions)
     -- Macro          { }, --   Same as Define
     -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
-    Type           { fg=NonText.fg }, -- (*) int, long, char, etc.
+    Type           { fg=Normal.fg }, -- (*) int, long, char, etc.
     -- StorageClass   { }, --   static, register, volatile, etc.
     -- Structure      { }, --   struct, union, enum, etc.
     -- Typedef        { }, --   A typedef
@@ -183,7 +183,7 @@ local theme = lush(function(injected_functions)
     Special        {  fg=Comment.fg.desaturate(35) }, -- (*) Any special symbol
     -- SpecialChar    { }, --   Special character in a constant
     Tag            { fg=Normal.fg }, --   You can use CTRL-] on this
-    -- Delimiter      { fg=Comment.fg.desaturate(35) }, --   Character that needs attention
+    Delimiter      { fg=NonText.fg.desaturate(35) }, --   Character that needs attention
     -- Debug          { }, --   Debugging statements
 
     -- TODO: find color for underline
