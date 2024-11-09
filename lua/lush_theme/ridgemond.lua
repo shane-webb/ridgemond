@@ -64,8 +64,8 @@ local theme = lush(function(injected_functions)
     -- See :h highlight-groups
     --
     Comment        { bg='NONE',     fg=hsl(204, 33, 56) }, -- Any comment
-    Cursor         { bg=hsl(60, 11, 88),  fg='NONE' }, -- Character under the cursor
-    Normal         { bg=hsl(212, 35, 22),  fg=hsl(60, 19, 83) }, -- Normal text
+    Normal         { bg=hsl(212, 35, 22),  fg=hsl(60, 19, 79) }, -- Normal text
+    Cursor         { bg=hsl(60, 11, 88),  fg=Normal.bg }, -- Character under the cursor
     Ignore         { bg='NONE',     fg='NONE' }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
     Error          { bg='NONE',     fg=hsl(0, 72, 67) }, -- Any erroneous construct
     Todo           { bg='NONE',     fg=hsl(225, 89, 62) }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
@@ -87,7 +87,7 @@ local theme = lush(function(injected_functions)
     -- TermCursor     { }, -- Cursor in a focused terminal
     -- TermCursorNC   { }, -- Cursor in an unfocused terminal
     ErrorMsg       { bg=DiffDelete.bg,  fg=Cursor.fg }, -- Error messages on the command line
-    VertSplit      { bg='NONE',     fg=Comment.fg }, -- Column separating vertically split windows
+    VertSplit      { bg='NONE',     fg=Comment.fg.lighten(35) }, -- Column separating vertically split windows
     Folded         { bg='NONE',     fg=Todo.fg }, -- Line used for closed folds
     FoldColumn     { bg='NONE',     fg=Todo.fg }, -- 'foldcolumn'
     SignColumn     { bg=Comment.bg,  fg='NONE' }, -- Column where |signs| are displayed
@@ -106,10 +106,10 @@ local theme = lush(function(injected_functions)
     MoreMsg        { bg='NONE',     fg=Todo.fg }, -- |more-prompt|
     NonText        { fg=EndOfBuffer.fg }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     NormalFloat    { bg=NonText.fg.darken(55) }, -- Normal text in floating windows.
-    FloatBorder    { fg=NonText.fg, bg=NonText.fg.darken(55) }, -- Border of floating windows.
-    FloatTitle     { bg='NONE',     fg=Cursor.fg }, -- Title of floating windows.
-    -- NormalNC       { }, -- normal text in non-current windows
-    Pmenu          { bg=Cursor.fg,  fg=Normal.fg }, -- Popup menu: Normal item.
+    FloatBorder    { fg=NonText.fg, bg=NonText.fg.darken(88) }, -- Border of floating windows.
+    FloatTitle     { bg='NONE',     fg=Cursor.fg.lighten(25) }, -- Title of floating windows.
+    NormalNC       { bg=Normal.bg.darken(15), fg=Normal.fg.darken(15)}, -- normal text in non-current windows
+    Pmenu          { bg=NormalFloat.bg,  fg=NormalFloat.fg }, -- Popup menu: Normal item.
     PmenuSel       { bg=Normal.fg,  fg=SpecialComment.fg.darken(25) }, -- Popup menu: Selected item.
     PmenuKind      { bg=NonText.fg.darken(55) }, -- Popup menu: Normal item "kind"
     -- PmenuKindSel   { }, -- Popup menu: Selected item "kind"
@@ -151,31 +151,32 @@ local theme = lush(function(injected_functions)
     -- fg=hsl(169, 50, 70)
     -- Comment        { bg='NONE',     fg=hsl(204, 33, 56) }, -- Any comment
 
-    Constant       { fg=hsl(190, 80, 50) }, -- (*) Any constant
-    -- String         {  fg=hsl(205, 99, 55) }, --   A string constant: "this is a string"
-    -- Character      { }, --   A character constant: 'c', '\n'
-    -- Number         { }, --   A number constant: 234, 0xff
-    -- Boolean        { }, --   A boolean constant: TRUE, false
-    -- Float          { }, --   A floating point constant: 2.3e10
+    Constant       { fg=Normal.fg }, -- (*) Any constant
+    String         { fg=hsl(190, 80, 65) }, --   A string constant: "this is a string"
+    Character      { fg=String.fg }, --   A character constant: 'c', '\n'
+    Number         { fg=String.fg }, --   A number constant: 234, 0xff
+    Boolean        { fg=String.fg }, --   A boolean constant: TRUE, false
+    Float          { fg=String.fg }, --   A floating point constant: 2.3e10
 
     Identifier     { fg=Normal.fg }, -- (*) Any variable name
-    -- Function       { }, --   Function name (also: methods for classes)
+    Function       { fg=hsl(205, 79, 65) }, --   Function name (also: methods for classes)
 
     Statement      { fg=Normal.fg }, -- (*) Any statement
     Conditional    { fg=NonText.fg.desaturate(25) }, --   if, then, else, endif, switch, etc.
     Repeat         { fg=NonText.fg.desaturate(25) }, --   for, do, while, etc.
-    -- Label          { }, --   case, default, etc.
-    -- Operator       { }, --   "sizeof", "+", "*", etc.
-    -- Keyword        { }, --   any other keyword
+    -- Label          { fg=WarningMsg.fg }, --   case, default, etc.
+    -- Operator       { fg=NonText.fg.desaturate(25) }, --   "sizeof", "+", "*", etc.
+    -- Keyword        { fg=hsl(250, 90, 75).lighten(50) }, --   any other keyword
+    Keyword        { fg=Normal.fg }, --   any other keyword
     -- Exception      { }, --   try, catch, throw
 
-    PreProc        { fg=hsl(250, 90, 80) }, -- (*) Generic Preprocessor
+    PreProc        { fg=hsl(250, 90, 75) }, -- (*) Generic Preprocessor
     -- Include        { }, --   Preprocessor #include
     -- Define         { }, --   Preprocessor #define
     -- Macro          { }, --   Same as Define
     -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
-    Type           { fg=Normal.fg }, -- (*) int, long, char, etc.
+    Type           { fg=PreProc.fg.lighten(50) }, -- (*) int, long, char, etc.
     -- StorageClass   { }, --   static, register, volatile, etc.
     -- Structure      { }, --   struct, union, enum, etc.
     -- Typedef        { }, --   A typedef
@@ -191,10 +192,10 @@ local theme = lush(function(injected_functions)
 
 
     -- Telescope groups
-    TelescopeNormal { bg=Normal.bg.darken(55) },
-    TelescopePreviewNormal { bg=Normal.bg.darken(55) },
-    TelescopePromptNormal { bg=Normal.bg.darken(55) },
-    TelescopeResultsNormal { bg=Normal.bg.darken(55) },
+    TelescopeNormal { bg=Normal.bg.darken(35) },
+    TelescopePreviewNormal { bg=Normal.bg.darken(35) },
+    TelescopePromptNormal { bg=Normal.bg.darken(35) },
+    TelescopeResultsNormal { bg=Normal.bg.darken(35) },
     -- WhichKey { bg=NonText.fg.darken(55) },
     WhichKeyFloat { bg=NonText.fg.darken(55)},
 
