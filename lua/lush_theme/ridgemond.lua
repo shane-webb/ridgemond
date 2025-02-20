@@ -65,7 +65,7 @@ local theme = lush(function(injected_functions)
     --
     Comment        { bg='NONE',     fg=hsl(204, 33, 56) }, -- Any comment
     Normal         { bg=hsl(212, 35, 22),  fg=hsl(60, 19, 79) }, -- Normal text
-    Cursor         { bg=hsl(60, 11, 88),  fg=Normal.bg }, -- Character under the cursor
+    Cursor         { bg=hsl(60, 11, 88),  fg=hsl(204, 33, 56) }, -- Character under the cursor
     Ignore         { bg='NONE',     fg='NONE' }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
     Error          { bg='NONE',     fg=hsl(0, 72, 67) }, -- Any erroneous construct
     Todo           { bg='NONE',     fg=hsl(225, 89, 62) }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
@@ -179,7 +179,7 @@ local theme = lush(function(injected_functions)
     Type           { fg=PreProc.fg.lighten(50) }, -- (*) int, long, char, etc.
     -- StorageClass   { }, --   static, register, volatile, etc.
     -- Structure      { }, --   struct, union, enum, etc.
-    -- Typedef        { }, --   A typedef
+    -- Typedef        { fg=PreProc.fg.lighten(50) }, --   A typedef
 
     Special        {  fg=Comment.fg.desaturate(35) }, -- (*) Any special symbol
     -- SpecialChar    { }, --   Special character in a constant
